@@ -37,7 +37,7 @@ public class PieceManager : MonoBehaviour
         UpdateTowerHeight();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PieceMovementController.instance.StopPiece();
+            PieceMovement.instance.StopPiece();
             UpdateChildCount();
 
             if (!isGameEnded && movingAxisOfTheBlock == Axes.x && childCount % 2 == 0)
