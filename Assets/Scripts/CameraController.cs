@@ -4,31 +4,21 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public static CameraController m_Instance = null;
-    public static CameraController Instance
+    // Update is called once per frame
+    private void Update()
     {
-        get
-        {
-            if (m_Instance == null)
-            {
-                m_Instance = (CameraController)FindObjectOfType(typeof(CameraController));
-            }
-            return m_Instance;
-        }
+        UpdateCameraPosition();
     }
 
-    Transform cameraTransform;
-    void Start()
-    {
-        cameraTransform = GetComponent<Transform>();
-    }
-        
+    // Updates position of the Main Camera
     public void UpdateCameraPosition()
     {
-        int lastChildIndex = PieceManager.Instance.transform.childCount - 1;
+        int lastChildIndex = PieceManager.Instance.transform.childCount - 1; // Get index of the last child object of PieceManager
 
-        cameraTransform.position = Vector3.Lerp(cameraTransform.position,
-            new Vector3(cameraTransform.position.x, PieceManager.Instance.transform.GetChild(lastChildIndex).position.y + 14.75f, cameraTransform.position.z),
-            2.0f * Time.deltaTime);
+        // Track the last instantiated piece smoothly
+        transform.position = Vector3.Lerp(
+                        transform.position,
+            new Vector3(transform.position.x, PieceManager.Instance.transform.GetChild(lastChildIndex).position.y + 14.75f, transform.position.z), // 14.75f is Main Camera offset on Y axis
+                        2.0f * Time.deltaTime); // Camera moving speed
     }
 }

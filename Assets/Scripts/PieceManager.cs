@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
+    private GameObject currentPiece, newPiece;
+
     public GameObject piecePrefab;
 
-    int childCount = 0;
-    float towerHeight = 1.25f;
+    private float towerHeight = 0; // Tower height is 0 at start
 
-    bool isGameEnded = false;
+    private bool isGameEnded = false;
 
     public enum Axes {x, z}; // x refers to X axis, z refers to Z axis
-    public Axes movingAxisOfTheBlock = Axes.x;
+    public Axes Direction = Axes.x; // Game always starts by piece moving on X-axis
 
+    // Create an instance of the object
     public static PieceManager m_Instance = null;
+    //Singleton
     public static PieceManager Instance
     {
         get
@@ -26,48 +29,58 @@ public class PieceManager : MonoBehaviour
             return m_Instance;
         }
     }
+    // Start is called before the first frame Update
     private void Start()
     {
-        InitializeGame();
+        InitializeGameAtStart();
     }
 
+    // Update is called once per frame
     private void Update()
     {
-        CameraController.Instance.UpdateCameraPosition();
         UpdateTowerHeight();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PieceMovement.instance.StopPiece();
-            UpdateChildCount();
 
-            if (!isGameEnded && movingAxisOfTheBlock == Axes.x && childCount % 2 == 0)
-            {
-                movingAxisOfTheBlock = Axes.z;
-                GameObject newPiece = Instantiate(piecePrefab, new Vector3(0, towerHeight, 6.99f), Quaternion.identity, transform);
-            }
-            else if (!isGameEnded && movingAxisOfTheBlock == Axes.z && childCount % 2 == 1)
-            {
-                movingAxisOfTheBlock = Axes.x;
-                GameObject newPiece = Instantiate(piecePrefab, new Vector3(6.99f, towerHeight, 0), Quaternion.identity, transform);
-            }
+        if (!isGameEnded && Input.GetKeyDown(KeyCode.Space)) // When pressed space button
+        {
+            PieceMovement.Instance.StopPiece(); // Stop the current piece
+            LeavePiece(); // Instantiate a new piece
         }
     }
 
-
-    void InitializeGame()
+    // Initializing piece and scene
+    private void InitializeGameAtStart()
     {
-        Instantiate(piecePrefab, new Vector3(6.99f, towerHeight, 0), Quaternion.identity, transform); // Create the first piece
-        UpdateChildCount();
+        Instantiate(piecePrefab, new Vector3(6.99f, towerHeight, 0), Quaternion.identity, transform); // Instantiate the first piece
         UpdateTowerHeight();
     }
 
-    void UpdateChildCount()
+    // Instantiates a new piece
+    private void LeavePiece()
     {
-        childCount++;
+        if (Direction == Axes.x)
+        {
+            ChangeDirection();
+            newPiece = Instantiate(piecePrefab, new Vector3(0, towerHeight, 6.99f), Quaternion.identity, transform);
+        }
+        else if (Direction == Axes.z)
+        {
+            ChangeDirection();
+            newPiece = Instantiate(piecePrefab, new Vector3(6.99f, towerHeight, 0), Quaternion.identity, transform);
+        }
     }
 
-    void UpdateTowerHeight()
+    // Updates tower height depends on chilCount of the object
+    private void UpdateTowerHeight()
     {
-        towerHeight = 1.25f + childCount * 0.5f;
+        towerHeight = transform.childCount * piecePrefab.transform.localScale.y; // Scale of the piece on the Y axis is 0.5f
+    }
+
+    // Chages directions between X and Z
+    private void ChangeDirection()
+    {
+        if (Direction == Axes.x)
+            Direction = Axes.z;
+        else
+            Direction = Axes.x;
     }
 }
