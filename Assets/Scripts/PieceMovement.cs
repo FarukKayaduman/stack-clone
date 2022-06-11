@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PieceMovement : MonoBehaviour
 {
-    private float pieceSpeed = 7.0f;
+    [SerializeField] private float pieceSpeed = 7.0f;
     private short direction = -1;
     private float positionLimit = 7.0f;
 

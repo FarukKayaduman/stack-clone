@@ -87,7 +87,7 @@ public class PieceManager : MonoBehaviour
         newPiece = Instantiate(piecePrefab, new Vector3(prevPiece.transform.localPosition.x, towerHeight, 6.99f), Quaternion.identity, transform);
     }
 
-    // Instantiate back piece and rescale current piece
+    // Instantiate back piece and rescale current piece on X axis
     void SpawnFallingPieceX()
     {
         fallingPiece = Instantiate(cubePrefab, backPieceContainerTransform);
@@ -103,40 +103,21 @@ public class PieceManager : MonoBehaviour
         backPiecePosition.y = newPiece.transform.localPosition.y;
 
         fallingPiece.transform.localPosition = backPiecePosition;
-        // fallingPiece.AddComponent<Rigidbody>().mass = 10; // Add Rigidbody.mass to make object falling
-
-
-        // Vector3 backPieceScale = prevPiece.transform.localScale;
-        // backPieceScale.x = Mathf.Abs(prevPiece.transform.position.x - newPiece.transform.position.x) * 2;
-        // fallingPiece.transform.localScale = backPieceScale;
-
-        // fallingPiece.transform.localScale = new Vector3(Mathf.Abs(3 * prevPiece.transform.localPosition.x / 2 - newPiece.transform.localPosition.x), 0.5f, 3);
-
+        fallingPiece.AddComponent<Rigidbody>().mass = 10; // Add Rigidbody.mass to make object falling
     }
 
     void AdjustStandingPieceX()
     {
-        // Vector3 newPieceScale = prevPiece.transform.localScale;
-        // newPieceScale.x = Mathf.Abs(newPieceScale.x - fallingPiece.transform.localScale.x);
+        float xDistance = Mathf.Abs(prevPiece.transform.localPosition.x - newPiece.transform.localPosition.x);
+        Vector3 newPieceScale = prevPiece.transform.localScale;
+        newPieceScale.x = Mathf.Abs(newPieceScale.x - xDistance);
+        newPiece.transform.localScale = newPieceScale;
 
-        // newPiece.transform.localScale = newPieceScale;
-
-        // Vector3 newPiecePosition = newPiece.transform.localPosition;
-        // newPiecePosition.x = newPiece.transform.localPosition.x > prevPiece.transform.localPosition.x
-        //                    ? prevPiece.transform.localPosition.x - fallingPiece.transform.localPosition.x
-        //                    : prevPiece.transform.localPosition.x + fallingPiece.transform.localPosition.x;
-        // newPiece.transform.localPosition = newPiecePosition;
-
-        // Vector3 newPieceScale = prevPiece.transform.localScale;
-        // newPieceScale.x = prevPiece.transform.localPosition.x < newPiece.transform.localPosition.x
-        //                 ? Mathf.Abs(newPiece.transform.localPosition.x - (prevPiece.transform.localPosition.x + prevPiece.transform.localScale.x / 2))
-        //                 : Mathf.Abs(newPiece.transform.localPosition.x - (prevPiece.transform.localPosition.x - prevPiece.transform.localScale.x / 2));
-        // newPiece.transform.localScale = newPieceScale;
-
-        // Vector3 newPiecePosition = prevPiece.transform.localPosition;
-        // newPiecePosition.x = newPiece.transform.localPosition.x > prevPiece.transform.localPosition.x
-        //                    ? prevPiece.transform.localPosition.x + (fallingPiece.transform.localScale.x / 2)
-        //                    : prevPiece.transform.localPosition.x - (fallingPiece.transform.localScale.x / 2);
+        Vector3 newPiecePosition = newPiece.transform.localPosition;
+        newPiecePosition.x = newPiece.transform.localPosition.x > prevPiece.transform.localPosition.x
+                           ? prevPiece.transform.localPosition.x + fallingPiece.transform.localScale.x / 2
+                           : prevPiece.transform.localPosition.x - fallingPiece.transform.localScale.x / 2;
+        newPiece.transform.localPosition = newPiecePosition;
     }
 
     // Sets tower height depends on chilCount of the object
