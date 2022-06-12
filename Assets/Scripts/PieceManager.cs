@@ -12,7 +12,7 @@ public class PieceManager : MonoBehaviour
 
     private float towerHeight = 0; // Tower height is 0 at start
 
-    private bool isGameEnded = false;
+    public bool isGameEnded = false;
 
     private Vector3 fallingPieceScale, fallingPiecePosition, newPieceScale, newPiecePosition;
 
@@ -47,9 +47,11 @@ public class PieceManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) // Left click
         {
+            isGameEnded = IsOutOfPrevPiece();
+
             if (isGameEnded)
             {
-                GameOver(); // TODO
+                OnGameOver(); // TODO
             }
             else
             {
@@ -63,7 +65,7 @@ public class PieceManager : MonoBehaviour
 
                     LeavePieceZ(); // Instantiate a new piece on Z axis
                 }
-                else if (Direction == Axes.z)
+                else // Direction == Axes.z
                 {
                     SpawnFallingPieceZ();
                     AdjustStandingPieceZ();
@@ -165,9 +167,42 @@ public class PieceManager : MonoBehaviour
         newPiece.transform.localPosition = newPiecePosition;
     }
 
-    private void GameOver()
+    private bool IsOutOfPrevPiece()
     {
+        if (Direction == Axes.x)
+        {
+            float prevPositiveXEdge = prevPiece.transform.localPosition.x + prevPiece.transform.localScale.x / 2;
+            float prevNegativeXEdge = prevPiece.transform.localPosition.x - prevPiece.transform.localScale.x / 2;
 
+            float newPositiveXEdge = newPiece.transform.localPosition.x + newPiece.transform.localScale.x / 2;
+            float newNegativeXEdge = newPiece.transform.localPosition.x - newPiece.transform.localScale.x / 2;
+
+            if (newNegativeXEdge > prevPositiveXEdge || newPositiveXEdge < prevNegativeXEdge)
+                return true;
+            else
+                return false;
+        }
+        else // Direction == Axes.z
+        {
+            float prevPositiveZEdge = prevPiece.transform.localPosition.z + prevPiece.transform.localScale.z / 2;
+            float prevNegativeZEdge = prevPiece.transform.localPosition.z - prevPiece.transform.localScale.z / 2;
+
+            float newPositiveZEdge = newPiece.transform.localPosition.z + newPiece.transform.localScale.z / 2;
+            float newNegativeZEdge = newPiece.transform.localPosition.z - newPiece.transform.localScale.z / 2;
+
+            if (newNegativeZEdge > prevPositiveZEdge || newPositiveZEdge < prevNegativeZEdge)
+                return true;
+            else
+                return false;
+        }
+    }
+
+    private void OnGameOver()
+    {
+        PieceMovement.Instance.StopPiece();
+        newPiece.GetComponent<Rigidbody>().isKinematic = false;
+        newPiece.GetComponent<Rigidbody>().useGravity = true;
+        newPiece.GetComponent<Rigidbody>().mass = 10;
     }
 
     // Sets tower height depends on chilCount of the object

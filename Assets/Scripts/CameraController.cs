@@ -7,7 +7,8 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        UpdateCameraPosition();
+        if(!PieceManager.Instance.isGameEnded)
+            UpdateCameraPosition();
     }
 
     // Updates position of the Main Camera
