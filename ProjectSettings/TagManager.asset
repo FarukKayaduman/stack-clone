@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Piece
   - Ground
+  - Falling
   layers:
   - Default
   - TransparentFX

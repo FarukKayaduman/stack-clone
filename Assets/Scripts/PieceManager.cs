@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class PieceManager : MonoBehaviour
 {
-    private MeshRenderer meshRenderer;
-
     [SerializeField] private GameObject piecePrefab;
-    [SerializeField] private GameObject cubePrefab;
+    [SerializeField] private GameObject fallingPiecePrefab;
     [SerializeField] private GameObject prevPiece, newPiece, fallingPiece;
 
-    [SerializeField] private Transform backPieceContainerTransform;
+    [SerializeField] private Transform fallingPieceContainerTransform;
 
     private float towerHeight = 0; // Tower height is 0 at start
 
     private bool isGameEnded = false;
+
+    private Vector3 fallingPieceScale, fallingPiecePosition, newPieceScale, newPiecePosition;
 
     public enum Axes {x, z}; // x refers to X axis, z refers to Z axis
     public Axes Direction = Axes.x; // Game always starts by piece moving on X-axis
@@ -44,28 +44,38 @@ public class PieceManager : MonoBehaviour
     {
         SetTowerHeight();
 
-        if (!isGameEnded && Input.GetMouseButtonDown(0)) // Left click
+
+        if (Input.GetMouseButtonDown(0)) // Left click
         {
-            PieceMovement.Instance.StopPiece(); // Stop the current piece
-
-            if (Direction == Axes.x)
+            if (isGameEnded)
             {
-                SpawnFallingPieceX();
-                AdjustStandingPieceX();
-
-                LeavePieceZ(); // Instantiate a new piece
+                GameOver(); // TODO
             }
-            else if (Direction == Axes.z)
+            else
             {
-                LeavePieceX();
+                PieceMovement.Instance.StopPiece(); // Stop the current piece
+
+                if (Direction == Axes.x)
+                {
+                    SpawnFallingPieceX();
+                    AdjustStandingPieceX();
+                    prevPiece = newPiece;
+
+                    LeavePieceZ(); // Instantiate a new piece on Z axis
+                }
+                else if (Direction == Axes.z)
+                {
+                    SpawnFallingPieceZ();
+                    AdjustStandingPieceZ();
+                    prevPiece = newPiece;
+
+                    LeavePieceX(); // Instantiate a new piece on X axis
+                }
+
+                ChangeAxis(); // Change the axis
             }
-            
-            // TODO: Adjust piecePrefab scale after LeavePiece
-            
-            prevPiece = newPiece;
-            ChangeAxis(); // Change the axis
         }
-    }
+     }
 
     // Initializing piece and scene
     private void InitializeGameAtStart()
@@ -79,45 +89,85 @@ public class PieceManager : MonoBehaviour
     private void LeavePieceX()
     {
         newPiece = Instantiate(piecePrefab, new Vector3(6.99f, towerHeight, prevPiece.transform.localPosition.z), Quaternion.identity, transform);
+        newPiece.transform.localPosition = new Vector3(newPiece.transform.position.x, newPiece.transform.position.y, newPiecePosition.z);
+        newPiece.transform.localScale = newPieceScale;
     }
 
     // Instantiates a new piece on Z axis
     private void LeavePieceZ()
     {
         newPiece = Instantiate(piecePrefab, new Vector3(prevPiece.transform.localPosition.x, towerHeight, 6.99f), Quaternion.identity, transform);
+        newPiece.transform.localPosition = new Vector3(newPiecePosition.x, newPiece.transform.position.y, newPiece.transform.position.z);
+        newPiece.transform.localScale = newPieceScale;
     }
 
-    // Instantiate back piece and rescale current piece on X axis
+    // Instantiate and rescale falling piece moving on X axis
     void SpawnFallingPieceX()
     {
-        fallingPiece = Instantiate(cubePrefab, backPieceContainerTransform);
+        fallingPiece = Instantiate(fallingPiecePrefab, fallingPieceContainerTransform);
 
-        Vector3 backPieceScale = prevPiece.transform.localScale;
-        backPieceScale.x = Mathf.Abs(prevPiece.transform.localPosition.x - newPiece.transform.localPosition.x);
-        fallingPiece.transform.localScale = backPieceScale;
+        fallingPieceScale = prevPiece.transform.localScale;
+        fallingPieceScale.x = Mathf.Abs(prevPiece.transform.localPosition.x - newPiece.transform.localPosition.x);
+        fallingPiece.transform.localScale = fallingPieceScale;
 
-        Vector3 backPiecePosition = prevPiece.transform.localPosition;
-        backPiecePosition.x = newPiece.transform.localPosition.x > prevPiece.transform.localPosition.x
-                            ? prevPiece.transform.localPosition.x + (prevPiece.transform.localScale.x + fallingPiece.transform.localScale.x) / 2
-                            : prevPiece.transform.localPosition.x - (prevPiece.transform.localScale.x + fallingPiece.transform.localScale.x) / 2;
-        backPiecePosition.y = newPiece.transform.localPosition.y;
+        fallingPiecePosition = newPiece.transform.localPosition;
+        fallingPiecePosition.x = newPiece.transform.localPosition.x > prevPiece.transform.localPosition.x
+                               ? prevPiece.transform.localPosition.x + (prevPiece.transform.localScale.x + fallingPiece.transform.localScale.x) / 2
+                               : prevPiece.transform.localPosition.x - (prevPiece.transform.localScale.x + fallingPiece.transform.localScale.x) / 2;
+        fallingPiece.transform.localPosition = fallingPiecePosition;
 
-        fallingPiece.transform.localPosition = backPiecePosition;
         fallingPiece.AddComponent<Rigidbody>().mass = 10; // Add Rigidbody.mass to make object falling
     }
 
     void AdjustStandingPieceX()
     {
         float xDistance = Mathf.Abs(prevPiece.transform.localPosition.x - newPiece.transform.localPosition.x);
-        Vector3 newPieceScale = prevPiece.transform.localScale;
+        newPieceScale = prevPiece.transform.localScale;
         newPieceScale.x = Mathf.Abs(newPieceScale.x - xDistance);
         newPiece.transform.localScale = newPieceScale;
 
-        Vector3 newPiecePosition = newPiece.transform.localPosition;
+        newPiecePosition = newPiece.transform.localPosition;
         newPiecePosition.x = newPiece.transform.localPosition.x > prevPiece.transform.localPosition.x
                            ? prevPiece.transform.localPosition.x + fallingPiece.transform.localScale.x / 2
                            : prevPiece.transform.localPosition.x - fallingPiece.transform.localScale.x / 2;
         newPiece.transform.localPosition = newPiecePosition;
+    }
+
+    // Instantiate and rescale falling piece moving on Z axis
+    void SpawnFallingPieceZ()
+    {
+        fallingPiece = Instantiate(fallingPiecePrefab, fallingPieceContainerTransform);
+
+        fallingPieceScale = prevPiece.transform.localScale;
+        fallingPieceScale.z = Mathf.Abs(prevPiece.transform.localPosition.z - newPiece.transform.localPosition.z);
+        fallingPiece.transform.localScale = fallingPieceScale;
+
+        fallingPiecePosition = newPiece.transform.localPosition;
+        fallingPiecePosition.z = newPiece.transform.localPosition.z > prevPiece.transform.localPosition.z
+                               ? prevPiece.transform.localPosition.z + (prevPiece.transform.localScale.z + fallingPiece.transform.localScale.z) / 2
+                               : prevPiece.transform.localPosition.z - (prevPiece.transform.localScale.z + fallingPiece.transform.localScale.z) / 2;
+        fallingPiece.transform.localPosition = fallingPiecePosition;
+
+        fallingPiece.AddComponent<Rigidbody>().mass = 10; // Add Rigidbody.mass to make object falling
+    }
+
+    void AdjustStandingPieceZ()
+    {
+        float zDistance = Mathf.Abs(prevPiece.transform.localPosition.z - newPiece.transform.localPosition.z);
+        newPieceScale = prevPiece.transform.localScale;
+        newPieceScale.z = Mathf.Abs(newPieceScale.z - zDistance);
+        newPiece.transform.localScale = newPieceScale;
+
+        newPiecePosition = newPiece.transform.localPosition;
+        newPiecePosition.z = newPiece.transform.localPosition.z > prevPiece.transform.localPosition.z
+                           ? prevPiece.transform.localPosition.z + fallingPiece.transform.localScale.z / 2
+                           : prevPiece.transform.localPosition.z - fallingPiece.transform.localScale.z / 2;
+        newPiece.transform.localPosition = newPiecePosition;
+    }
+
+    private void GameOver()
+    {
+
     }
 
     // Sets tower height depends on chilCount of the object
