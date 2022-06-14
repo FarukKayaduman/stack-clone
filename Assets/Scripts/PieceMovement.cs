@@ -6,7 +6,7 @@ public class PieceMovement : MonoBehaviour
 {
     [SerializeField] private float pieceSpeed = 7.0f;
     private short direction = -1;
-    private float positionLimit = 7.0f;
+    public float positionLimit = 6.0f; // TODO: Adjust position limit each time a piece instantiated. May use "positionLimit -= fallingPieceScale / 2"
 
     // Create an instance of the object
     public static PieceMovement Instance;
@@ -35,7 +35,7 @@ public class PieceMovement : MonoBehaviour
     private void MovePieceXAxis()
     {
         float xPosition = transform.position.x + pieceSpeed * Time.deltaTime * direction; // Change the position of the block on the X Axis
-        Mathf.Clamp(xPosition, -positionLimit + 0.01f, positionLimit - 0.01f); // Limit X position of the block
+        xPosition = Mathf.Clamp(xPosition, -positionLimit, positionLimit); // Limit X position of the block
         transform.position = new Vector3(xPosition, transform.position.y, transform.position.z); // Assign new position of the block
         if (transform.position.x <= -positionLimit || transform.position.x >= positionLimit) // If position of the block reaches to limits, reverse the direction
         {
@@ -47,7 +47,7 @@ public class PieceMovement : MonoBehaviour
     private void MovePieceZAxis()
     {
         float zPosition = transform.position.z + pieceSpeed * Time.deltaTime * direction; // Change the position of the block on the Z Axis
-        Mathf.Clamp(zPosition, -positionLimit + 0.01f, positionLimit - 0.01f); // Limit Z position of the block
+        zPosition = Mathf.Clamp(zPosition, -positionLimit, positionLimit); // Limit Z position of the block
         transform.position = new Vector3(transform.position.x, transform.position.y, zPosition); // Assign new position of the block
         if (transform.position.z <= -positionLimit || transform.position.z >= positionLimit) // If position of the block reaches to limits, reverse the direction
         {

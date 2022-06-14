@@ -90,7 +90,7 @@ public class PieceManager : MonoBehaviour
     // Instantiates a new piece on X axis
     private void LeavePieceX()
     {
-        newPiece = Instantiate(piecePrefab, new Vector3(6.99f, towerHeight, prevPiece.transform.localPosition.z), Quaternion.identity, transform);
+        newPiece = Instantiate(piecePrefab, new Vector3(PieceMovement.Instance.positionLimit - 0.01f, towerHeight, prevPiece.transform.localPosition.z), Quaternion.identity, transform);
         newPiece.transform.localPosition = new Vector3(newPiece.transform.position.x, newPiece.transform.position.y, newPiecePosition.z);
         newPiece.transform.localScale = newPieceScale;
     }
@@ -98,7 +98,7 @@ public class PieceManager : MonoBehaviour
     // Instantiates a new piece on Z axis
     private void LeavePieceZ()
     {
-        newPiece = Instantiate(piecePrefab, new Vector3(prevPiece.transform.localPosition.x, towerHeight, 6.99f), Quaternion.identity, transform);
+        newPiece = Instantiate(piecePrefab, new Vector3(prevPiece.transform.localPosition.x, towerHeight, PieceMovement.Instance.positionLimit - 0.01f), Quaternion.identity, transform);
         newPiece.transform.localPosition = new Vector3(newPiecePosition.x, newPiece.transform.position.y, newPiece.transform.position.z);
         newPiece.transform.localScale = newPieceScale;
     }
