@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pieceSpeed: 7
+  positionLimit: 6
 --- !u!54 &3150937094991476094
 Rigidbody:
   m_ObjectHideFlags: 0

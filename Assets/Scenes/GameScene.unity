@@ -258,6 +258,7 @@ MonoBehaviour:
   newPiece: {fileID: 0}
   fallingPiece: {fileID: 0}
   fallingPieceContainerTransform: {fileID: 1066987299}
+  isGameEnded: 0
   Direction: 0
 --- !u!4 &287623336
 Transform:
@@ -1311,6 +1312,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1193005026}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1716055284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1716055286}
+  - component: {fileID: 1716055285}
+  m_Layer: 0
+  m_Name: ColorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1716055285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716055284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e86bdd575e3177142907900987fe60a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minColorValue: 100
+  maxColorValue: 240
+  rColor: 0
+  gColor: 0
+  bColor: 0
+  rChange: 20
+  gChange: 20
+  bChange: 20
+--- !u!4 &1716055286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716055284}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1899237914
 GameObject:

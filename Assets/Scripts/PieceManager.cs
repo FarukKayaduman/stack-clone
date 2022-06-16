@@ -74,6 +74,7 @@ public class PieceManager : MonoBehaviour
                     LeavePieceX(); // Instantiate a new piece on X axis
                 }
 
+                ColorManager.Instance.UpdatePieceColor(newPiece);
                 ChangeAxis(); // Change the axis
             }
         }
@@ -84,9 +85,10 @@ public class PieceManager : MonoBehaviour
     {
         prevPiece = GameObject.FindWithTag("Ground");
         newPiece = Instantiate(piecePrefab, new Vector3(6.99f, towerHeight, 0), Quaternion.identity, transform); // Instantiate the first piece
+        newPiece.GetComponent<MeshRenderer>().material.color = ColorManager.Instance.RandomColorInRange();
         SetTowerHeight();
     }
-
+    
     // Instantiates a new piece on X axis
     private void LeavePieceX()
     {
@@ -107,6 +109,7 @@ public class PieceManager : MonoBehaviour
     void SpawnFallingPieceX()
     {
         fallingPiece = Instantiate(fallingPiecePrefab, fallingPieceContainerTransform);
+        fallingPiece.GetComponent<MeshRenderer>().material.color = newPiece.GetComponent<MeshRenderer>().material.color;
 
         fallingPieceScale = prevPiece.transform.localScale;
         fallingPieceScale.x = Mathf.Abs(prevPiece.transform.localPosition.x - newPiece.transform.localPosition.x);
@@ -139,6 +142,7 @@ public class PieceManager : MonoBehaviour
     void SpawnFallingPieceZ()
     {
         fallingPiece = Instantiate(fallingPiecePrefab, fallingPieceContainerTransform);
+        fallingPiece.GetComponent<MeshRenderer>().material.color = newPiece.GetComponent<MeshRenderer>().material.color;
 
         fallingPieceScale = prevPiece.transform.localScale;
         fallingPieceScale.z = Mathf.Abs(prevPiece.transform.localPosition.z - newPiece.transform.localPosition.z);
