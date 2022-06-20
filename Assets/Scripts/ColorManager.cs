@@ -44,6 +44,9 @@ public class ColorManager : MonoBehaviour
 
             gColor = minColorValue;
             bColor = maxColorValue;
+
+            if (rColor == minColorValue)
+                rColor += rChange;
         }
         else if (selectedRGB == 1)
         {
@@ -52,6 +55,9 @@ public class ColorManager : MonoBehaviour
 
             gColor = maxColorValue;
             bColor = minColorValue;
+
+            if (rColor == minColorValue)
+                rColor += rChange;
         }
         else if (selectedRGB == 2)
         {
@@ -60,6 +66,9 @@ public class ColorManager : MonoBehaviour
 
             rColor = minColorValue;
             bColor = maxColorValue;
+
+            if (gColor == minColorValue)
+                gColor += gChange;
         }
         else if (selectedRGB == 3)
         {
@@ -68,6 +77,9 @@ public class ColorManager : MonoBehaviour
 
             rColor = maxColorValue;
             bColor = minColorValue;
+
+            if (gColor == minColorValue)
+                gColor += gChange;
         }
         else if (selectedRGB == 4)
         {
@@ -76,6 +88,9 @@ public class ColorManager : MonoBehaviour
 
             rColor = minColorValue;
             gColor = maxColorValue;
+
+            if (bColor == minColorValue)
+                bColor += bChange;
         }
         else // (selectedRGB == 5)
         {
@@ -84,11 +99,10 @@ public class ColorManager : MonoBehaviour
 
             rColor = maxColorValue;
             gColor = minColorValue;
-        }
 
-        //rColor = (byte)Mathf.Clamp(rColor, minColorValue, maxColorValue);
-        //gColor = (byte)Mathf.Clamp(gColor, minColorValue, maxColorValue);
-        //bColor = (byte)Mathf.Clamp(bColor, minColorValue, maxColorValue);
+            if (bColor == minColorValue)
+                bColor += bChange;
+        }
 
         return new Color32(rColor, gColor, bColor, 255); ;
     }

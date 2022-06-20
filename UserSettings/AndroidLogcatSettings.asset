@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "nfzhtg8xx8xczx65",
         "name": "com.DefaultCompany.StackClone",
-        "processId": 26421,
+        "processId": 11246,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -24,6 +24,12 @@
             "deviceId": "nfzhtg8xx8xczx65",
             "name": "com.DefaultCompany.StackClone",
             "processId": 26421,
+            "exited": false
+        },
+        {
+            "deviceId": "nfzhtg8xx8xczx65",
+            "name": "com.DefaultCompany.StackClone",
+            "processId": 11246,
             "exited": false
         }
     ],
