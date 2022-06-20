@@ -1,0 +1,3 @@
+Name             : GradientSkybox
+Date of access   : 20.06.2022
+GitHub repository: https://github.com/aadebdeb/GradientSkybox

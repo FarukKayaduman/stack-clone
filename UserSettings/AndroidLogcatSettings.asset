@@ -1,13 +1,32 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "nfzhtg8xx8xczx65",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "nfzhtg8xx8xczx65",
+        "name": "com.DefaultCompany.StackClone",
+        "processId": 26421,
         "exited": false
     },
     "m_SelectedPriority": 0,
-    "m_KnownPackagesForSerialization": [],
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "nfzhtg8xx8xczx65",
+            "name": "com.DefaultCompany.StackClone",
+            "processId": 26496,
+            "exited": false
+        },
+        {
+            "deviceId": "nfzhtg8xx8xczx65",
+            "name": "com.DefaultCompany.StackClone",
+            "processId": 28011,
+            "exited": false
+        },
+        {
+            "deviceId": "nfzhtg8xx8xczx65",
+            "name": "com.DefaultCompany.StackClone",
+            "processId": 26421,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {
@@ -41,9 +60,20 @@
         ]
     },
     "m_MemoryViewerState": {
-        "MemoryWindowHeight": 0.0,
-        "MemoryWindowWidth": 0.0,
-        "MemoryTypeEnabled": [],
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
         "MemoryGroup": 2,
         "Behavior": 0
     },

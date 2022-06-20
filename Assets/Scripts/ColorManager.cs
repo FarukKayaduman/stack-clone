@@ -86,6 +86,10 @@ public class ColorManager : MonoBehaviour
             gColor = minColorValue;
         }
 
+        //rColor = (byte)Mathf.Clamp(rColor, minColorValue, maxColorValue);
+        //gColor = (byte)Mathf.Clamp(gColor, minColorValue, maxColorValue);
+        //bColor = (byte)Mathf.Clamp(bColor, minColorValue, maxColorValue);
+
         return new Color32(rColor, gColor, bColor, 255); ;
     }
 

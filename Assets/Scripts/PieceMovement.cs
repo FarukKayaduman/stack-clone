@@ -34,10 +34,10 @@ public class PieceMovement : MonoBehaviour
     // Move piece on X axis
     private void MovePieceXAxis()
     {
-        float xPosition = transform.position.x + pieceSpeed * Time.deltaTime * direction; // Change the position of the block on the X Axis
-        xPosition = Mathf.Clamp(xPosition, -positionLimit, positionLimit); // Limit X position of the block
+        // Change the position of the block on the X Axis and limit X position of the block
+        float xPosition = Mathf.Clamp(transform.position.x + pieceSpeed * Time.deltaTime * direction, -positionLimit, positionLimit);
         transform.position = new Vector3(xPosition, transform.position.y, transform.position.z); // Assign new position of the block
-        if (transform.position.x <= -positionLimit || transform.position.x >= positionLimit) // If position of the block reaches to limits, reverse the direction
+        if (transform.position.x == -positionLimit || transform.position.x == positionLimit) // If position of the block reaches to limits, reverse the direction
         {
             direction *= -1; 
         }
@@ -46,10 +46,10 @@ public class PieceMovement : MonoBehaviour
     // Move piece on Z axis
     private void MovePieceZAxis()
     {
-        float zPosition = transform.position.z + pieceSpeed * Time.deltaTime * direction; // Change the position of the block on the Z Axis
-        zPosition = Mathf.Clamp(zPosition, -positionLimit, positionLimit); // Limit Z position of the block
+        // Change the position of the block on the Z Axis and limit Z position of the block
+        float zPosition = Mathf.Clamp(transform.position.z + pieceSpeed * Time.deltaTime * direction, -positionLimit, positionLimit);
         transform.position = new Vector3(transform.position.x, transform.position.y, zPosition); // Assign new position of the block
-        if (transform.position.z <= -positionLimit || transform.position.z >= positionLimit) // If position of the block reaches to limits, reverse the direction
+        if (transform.position.z == -positionLimit || transform.position.z == positionLimit) // If position of the block reaches to limits, reverse the direction
         {
             direction *= -1;
         }
