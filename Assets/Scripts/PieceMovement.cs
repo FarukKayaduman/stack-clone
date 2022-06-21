@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PieceMovement : MonoBehaviour
 {
-    [SerializeField] private float pieceSpeed = 7.0f;
+    private float pieceSpeed = 7.0f;
     private short direction = -1;
     public float positionLimit = 6.0f; // TODO: Adjust position limit each time a piece instantiated. May use "positionLimit -= fallingPieceScale / 2"
 
@@ -53,6 +53,12 @@ public class PieceMovement : MonoBehaviour
         {
             direction *= -1;
         }
+    }
+
+    // Setting in GameManager script
+    public void SetPieceSpeed(float speed)
+    {
+        pieceSpeed = speed;
     }
 
     // Stops the piece by making pieceSpeed value 0

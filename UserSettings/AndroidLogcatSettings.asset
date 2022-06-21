@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "nfzhtg8xx8xczx65",
         "name": "com.DefaultCompany.StackClone",
-        "processId": 11246,
+        "processId": 4026,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -30,6 +30,36 @@
             "deviceId": "nfzhtg8xx8xczx65",
             "name": "com.DefaultCompany.StackClone",
             "processId": 11246,
+            "exited": false
+        },
+        {
+            "deviceId": "nfzhtg8xx8xczx65",
+            "name": "com.DefaultCompany.StackClone",
+            "processId": 7434,
+            "exited": false
+        },
+        {
+            "deviceId": "nfzhtg8xx8xczx65",
+            "name": "com.DefaultCompany.StackClone",
+            "processId": 30211,
+            "exited": false
+        },
+        {
+            "deviceId": "nfzhtg8xx8xczx65",
+            "name": "com.DefaultCompany.StackClone",
+            "processId": 32592,
+            "exited": false
+        },
+        {
+            "deviceId": "nfzhtg8xx8xczx65",
+            "name": "com.DefaultCompany.StackClone",
+            "processId": 1401,
+            "exited": false
+        },
+        {
+            "deviceId": "nfzhtg8xx8xczx65",
+            "name": "com.DefaultCompany.StackClone",
+            "processId": 4026,
             "exited": false
         }
     ],

@@ -6,7 +6,8 @@ public class PieceManager : MonoBehaviour
 {
     [SerializeField] private GameObject piecePrefab;
     [SerializeField] private GameObject fallingPiecePrefab;
-    [SerializeField] private GameObject prevPiece, newPiece, fallingPiece;
+    [SerializeField] private GameObject prevPiece, fallingPiece;
+    public GameObject newPiece;
 
     [SerializeField] private Transform fallingPieceContainerTransform;
 
@@ -43,48 +44,48 @@ public class PieceManager : MonoBehaviour
     private void Update()
     {
         SetTowerHeight();
+    }
 
+    public void LeavePieceButton()
+    {
+        isGameEnded = IsOutOfPrevPiece();
 
-        if (Input.GetMouseButtonDown(0)) // Left click
+        if (isGameEnded)
         {
-            isGameEnded = IsOutOfPrevPiece();
-
-            if (isGameEnded)
-            {
-                OnGameOver(); // TODO
-            }
-            else
-            {
-                PieceMovement.Instance.StopPiece(); // Stop the current piece
-
-                if (Direction == Axes.x)
-                {
-                    SpawnFallingPieceX();
-                    AdjustStandingPieceX();
-                    prevPiece = newPiece;
-
-                    LeavePieceZ(); // Instantiate a new piece on Z axis
-                }
-                else // Direction == Axes.z
-                {
-                    SpawnFallingPieceZ();
-                    AdjustStandingPieceZ();
-                    prevPiece = newPiece;
-
-                    LeavePieceX(); // Instantiate a new piece on X axis
-                }
-
-                ColorManager.Instance.UpdatePieceColor(newPiece);
-                ChangeAxis(); // Change the axis
-            }
+            OnGameOver(); // TODO
         }
-     }
+        else
+        {
+            PieceMovement.Instance.StopPiece(); // Stop the current piece
+
+            if (Direction == Axes.x)
+            {
+                SpawnFallingPieceX();
+                AdjustStandingPieceX();
+                prevPiece = newPiece;
+
+                LeavePieceZ(); // Instantiate a new piece on Z axis
+            }
+            else // Direction == Axes.z
+            {
+                SpawnFallingPieceZ();
+                AdjustStandingPieceZ();
+                prevPiece = newPiece;
+
+                LeavePieceX(); // Instantiate a new piece on X axis
+            }
+
+            ColorManager.Instance.UpdatePieceColor(newPiece);
+            ChangeAxis(); // Change the axis
+        }
+    }
 
     // Initializing piece and scene
     private void InitializeGameAtStart()
     {
         prevPiece = GameObject.FindWithTag("Ground");
         newPiece = Instantiate(piecePrefab, new Vector3(6.99f, towerHeight, 0), Quaternion.identity, transform); // Instantiate the first piece
+        newPiece.SetActive(false);
         newPiece.GetComponent<MeshRenderer>().material.color = ColorManager.Instance.RandomColorInRange();
         SetTowerHeight();
     }
