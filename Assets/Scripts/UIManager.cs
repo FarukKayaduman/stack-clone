@@ -21,12 +21,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.touchCount > 0)
-        {
-            score = PieceManager.Instance.transform.childCount;
-            SetScoreText();
-        }
-
         if (PieceManager.Instance.isGameEnded)
         {
             GameOver();
@@ -55,9 +49,16 @@ public class UIManager : MonoBehaviour
         restartMenu.SetActive(false);
     }
 
+    public void SetScore()
+    {
+        score = PieceManager.Instance.transform.childCount - 1;
+        SetScoreText();
+    }
+
     public void SetScoreText()
     {
-        scoreText.text = score.ToString();
+        if(score > 0)
+            scoreText.text = score.ToString();
     }
 
     private void UpdateHighScore()
